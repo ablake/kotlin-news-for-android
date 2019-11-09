@@ -1,29 +1,67 @@
 package com.damakable.kotlinnews.model
 
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.fail
+import com.damakable.kotlinnews.api.NewsfeedService
+import junit.framework.Assert.assertNotNull
+import junit.framework.Assert.fail
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.setMain
+import okhttp3.ResponseBody
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
+import org.mockito.junit.MockitoJUnitRunner
+import retrofit2.Response
 
-@RunWith(JUnit4::class)
+@ExperimentalCoroutinesApi
+@RunWith(MockitoJUnitRunner::class)
 class NewsfeedProviderTest {
-//    @Mock
-//    lateinit var newsfeedService: NewsFeedService
+    @Mock
+    lateinit var newsfeedService: NewsfeedService
 
-    @Test fun `requestFeed provides Newsfeed to observer on success`() {
-        NewsfeedProvider().requestFeed({
-            assertNotNull(it)
-        }, {
-            fail()
-        })
+    private val testDispatcher = TestCoroutineDispatcher()
+
+    @Before
+    fun setup() {
+        Dispatchers.setMain(testDispatcher)
     }
 
-    @Test fun `requestFeed provides ErrorInfo to observer on failure`() {
-        NewsfeedProvider().requestFeed({
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
+    }
+
+    @Test fun `requestFeed provides Newsfeed to observer on success`() = runBlockingTest {
+        Mockito.`when`(newsfeedService.getNewsfeed()).thenReturn(Response.success(Newsfeed()))
+
+        NewsfeedProvider(newsfeedService).requestFeed({
+            assertNotNull(it)
+        }, {
+            fail()
+        })
+
+        verify(newsfeedService).getNewsfeed()
+    }
+
+    @Test fun `requestFeed provides Exception to observer on failure`() = runBlockingTest {
+        Mockito.`when`(newsfeedService.getNewsfeed())
+            .thenReturn(Response.error(404, mock(ResponseBody::class.java)))
+
+        NewsfeedProvider(newsfeedService).requestFeed({
             fail()
         }, {
             assertNotNull(it)
         })
+
+        verify(newsfeedService).getNewsfeed()
     }
 }
