@@ -6,7 +6,10 @@ import com.google.gson.annotations.SerializedName
 
 data class NewsItem(
     @SerializedName("kind") val kind: String?,
-    @SerializedName("data") val data: NewsItemData?
+    @SerializedName("data") val data: NewsItemData?,
+    val title: String = data?.title ?: "",
+    val body: String = data?.selftext ?: ""
+
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -15,6 +18,7 @@ data class NewsItem(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(kind)
+        parcel.writeParcelable(data, flags)
     }
 
     override fun describeContents(): Int {

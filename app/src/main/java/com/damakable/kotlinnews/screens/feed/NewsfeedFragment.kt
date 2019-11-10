@@ -21,4 +21,9 @@ class NewsfeedFragment : Fragment(R.layout.fragment_newsfeed) {
             findNavController().navigate(R.id.action_newsfeed_to_item, bundle)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.title = getString(R.string.app_name)
+    }
 }
