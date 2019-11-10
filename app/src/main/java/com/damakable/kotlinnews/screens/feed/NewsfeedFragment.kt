@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.damakable.kotlinnews.BuildConfig
 import com.damakable.kotlinnews.R
@@ -48,7 +49,7 @@ class NewsfeedFragment : Fragment(R.layout.fragment_newsfeed) {
         val newsfeedService = retrofit.create(NewsfeedService::class.java)
 
         newsfeed_recycler.layoutManager = LinearLayoutManager(context)
-        newsfeed_recycler.adapter = NewsfeedAdapter()
+        newsfeed_recycler.adapter = NewsfeedAdapter(findNavController())
         val adapter: NewsfeedAdapter = newsfeed_recycler.adapter as NewsfeedAdapter
 
         NewsfeedProvider(newsfeedService).requestFeed({ feed ->
