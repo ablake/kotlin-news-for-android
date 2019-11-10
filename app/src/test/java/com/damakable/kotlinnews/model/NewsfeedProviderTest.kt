@@ -30,7 +30,7 @@ class NewsfeedProviderTest {
 
     private val newsfeed = Newsfeed("feed",
         NewsfeedData("after",
-            List(5) { i -> NewsItem("t3",
+            MutableList(1) { i -> NewsItem("t3",
                 NewsItemData(i.toString(), "selftext", "thumbnail"))
         }))
 

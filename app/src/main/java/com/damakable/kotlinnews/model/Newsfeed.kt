@@ -29,9 +29,12 @@ data class Newsfeed(
     @SerializedName("data") val data: NewsfeedData = NewsfeedData("", ArrayList(0))
 ) {
     fun length(): Int = data.children.size
+    fun items(): List<NewsItem> = data.children
+    fun after(): String = data.after
+    fun add(newData: List<NewsItem>) = data.children.addAll(newData)
 }
 
 data class NewsfeedData(
     @SerializedName("after") val after: String,
-    @SerializedName("children") val children: List<NewsItem>
+    @SerializedName("children") val children: MutableList<NewsItem>
 )

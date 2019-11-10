@@ -12,12 +12,12 @@ class NewsfeedProvider(private val newsfeedService: NewsfeedService) {
         Job() + Dispatchers.Main
     )
 
-    fun requestFeed(onSuccess: (Newsfeed?) -> Unit,
+    fun requestFeed(onSuccess: (Newsfeed) -> Unit,
                     onFailure: (Exception) -> Unit) = scope.launch {
         try {
             val response = newsfeedService.getNewsfeed()
             if (response.isSuccessful) {
-                onSuccess(response.body())
+                onSuccess(response.body() ?: Newsfeed())
             } else {
                 val error = "Error code: " + response.code()
                 onFailure(Exception(error))
@@ -26,4 +26,20 @@ class NewsfeedProvider(private val newsfeedService: NewsfeedService) {
             onFailure(e)
         }
     }
+
+//    fun requestPage(after: String,
+//                    onSuccess: (Newsfeed) -> Unit,
+//                    onFailure: (Exception) -> Unit) = scope.launch {
+//        try {
+//            val response = newsfeedService.getPage()
+//            if (response.isSuccessful) {
+//                onSuccess(response.body() ?: Newsfeed())
+//            } else {
+//                val error = "Error code: " + response.code()
+//                onFailure(Exception(error))
+//            }
+//        } catch (e: Exception) {
+//            onFailure(e)
+//        }
+//    }
 }

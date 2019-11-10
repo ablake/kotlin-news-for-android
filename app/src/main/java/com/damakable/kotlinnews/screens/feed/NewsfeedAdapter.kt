@@ -49,4 +49,14 @@ class NewsfeedAdapter(private val navController: NavController) : RecyclerView.A
     override fun getItemCount(): Int {
         return newsfeed.length()
     }
+
+    fun clear() {
+        newsfeed = Newsfeed()
+        notifyDataSetChanged()
+    }
+
+    fun addItems(newsItems: List<NewsItem>) {
+        newsfeed.add(newsItems)
+        notifyDataSetChanged()
+    }
 }
