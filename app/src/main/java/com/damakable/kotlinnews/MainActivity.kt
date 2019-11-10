@@ -34,8 +34,10 @@ class MainActivity : AppCompatActivity() {
 
         val newsfeedService = retrofit.create(NewsfeedService::class.java)
 
-        NewsfeedProvider(newsfeedService).requestFeed({
-            Log.d("Newsfeed", it?.toString())
+        NewsfeedProvider(newsfeedService).requestFeed({ newsfeed ->
+            newsfeed?.newsItems()?.forEach {
+                Log.d("Newsfeed", it.data.title)
+            }
         }, {
             Log.d("Newsfeed", it.toString())
         })
