@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         NewsfeedProvider(newsfeedService).requestFeed({ newsfeed ->
             newsfeed?.newsItems()?.forEach {
-                Log.d("Newsfeed", it.data.title)
+                Log.d("Newsfeed", it.data?.title)
             }
         }, {
             Log.d("Newsfeed", it.toString())

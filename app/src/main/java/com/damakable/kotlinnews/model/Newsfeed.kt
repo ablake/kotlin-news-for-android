@@ -35,14 +35,3 @@ data class NewsfeedData(
     @SerializedName("after") val after: String,
     @SerializedName("children") val children: List<NewsItem>
 )
-
-data class NewsItem(
-    @SerializedName("kind") val kind: String,
-    @SerializedName("data") val data: NewsfeedItemData
-)
-
-data class NewsfeedItemData(
-    @SerializedName("title") val title: String,
-    @SerializedName("selftext") val selftext: String,
-    @SerializedName("thumbnail") val thumbnail: String
-)
