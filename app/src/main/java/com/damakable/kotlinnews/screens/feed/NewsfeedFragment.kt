@@ -7,43 +7,20 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.damakable.kotlinnews.BuildConfig
+import com.damakable.kotlinnews.MainActivity
 import com.damakable.kotlinnews.R
-import com.damakable.kotlinnews.api.NewsfeedService
 import com.damakable.kotlinnews.model.NewsItem
 import com.damakable.kotlinnews.model.NewsfeedProvider
-import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_newsfeed.*
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class NewsfeedFragment : Fragment(R.layout.fragment_newsfeed), NewsfeedView {
 
-    lateinit var adapter: NewsfeedAdapter
+    private lateinit var adapter: NewsfeedAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // TODO: Move all this dependency creation into a factory or Dagger component
-        val builder = OkHttpClient.Builder()
-        if (BuildConfig.DEBUG) {
-            val loggingInterceptor = HttpLoggingInterceptor()
-            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            builder.addNetworkInterceptor(loggingInterceptor)
-        }
-
-        val httpClient = builder.build()
-        val gson = GsonBuilder().create()
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://www.reddit.com/r/kotlin/")
-//            .baseUrl("https://www.reddit.com/r/pics/")
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .client(httpClient)
-            .build()
-
-        val newsfeedService = retrofit.create(NewsfeedService::class.java)
+        val newsfeedService = (activity as MainActivity).newsfeedService
+        val presenter = NewsfeedPresenter(NewsfeedProvider(newsfeedService), this)
 
         newsfeed_recycler.layoutManager = LinearLayoutManager(context)
         adapter = NewsfeedAdapter(findNavController())
@@ -51,7 +28,6 @@ class NewsfeedFragment : Fragment(R.layout.fragment_newsfeed), NewsfeedView {
         newsfeed_recycler.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
-        val presenter = NewsfeedPresenter(NewsfeedProvider(newsfeedService), this)
         presenter.refresh()
     }
 
