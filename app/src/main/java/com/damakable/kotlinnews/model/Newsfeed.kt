@@ -32,6 +32,7 @@ data class Newsfeed(
     fun items(): List<NewsItem> = data.children
     fun after(): String = data.after
     fun add(newData: List<NewsItem>) = data.children.addAll(newData)
+    fun clear() = data.children.clear()
 }
 
 data class NewsfeedData(

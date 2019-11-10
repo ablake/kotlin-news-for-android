@@ -14,21 +14,29 @@ import com.damakable.kotlinnews.model.NewsfeedProvider
 import kotlinx.android.synthetic.main.fragment_newsfeed.*
 
 class NewsfeedFragment : Fragment(R.layout.fragment_newsfeed), NewsfeedView {
-
     private lateinit var adapter: NewsfeedAdapter
+    private lateinit var presenter: NewsfeedPresenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val newsfeedService = (activity as MainActivity).newsfeedService
+        presenter = NewsfeedPresenter(NewsfeedProvider(newsfeedService), this)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val newsfeedService = (activity as MainActivity).newsfeedService
-        val presenter = NewsfeedPresenter(NewsfeedProvider(newsfeedService), this)
+
+        if (!::adapter.isInitialized)
+            adapter = NewsfeedAdapter(findNavController())
 
         newsfeed_recycler.layoutManager = LinearLayoutManager(context)
-        adapter = NewsfeedAdapter(findNavController())
         newsfeed_recycler.adapter = adapter
         newsfeed_recycler.addItemDecoration(
-            DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        )
 
-        presenter.refresh()
+        presenter.requestFeedIfEmpty()
     }
 
     override fun onResume() {
@@ -36,13 +44,11 @@ class NewsfeedFragment : Fragment(R.layout.fragment_newsfeed), NewsfeedView {
         activity?.title = getString(R.string.app_name)
     }
 
-    override fun clear() {
-        adapter.clear()
-    }
+    override fun clear() = adapter.clear()
 
-    override fun addItems(newsItems: List<NewsItem>) {
-        adapter.addItems(newsItems)
-    }
+    override fun addItems(newsItems: List<NewsItem>) = adapter.addItems(newsItems)
+
+    override fun isEmpty(): Boolean = adapter.itemCount == 0
 
     override fun displayError(error: Exception) {
         Log.d("Newsfeed", error.toString())

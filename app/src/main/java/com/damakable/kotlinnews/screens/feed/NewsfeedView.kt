@@ -8,4 +8,6 @@ interface NewsfeedView {
     fun addItems(newsItems: List<NewsItem>)
 
     fun displayError(error: Exception)
+
+    fun isEmpty() : Boolean
 }

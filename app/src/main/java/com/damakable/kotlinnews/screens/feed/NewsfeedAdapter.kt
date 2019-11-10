@@ -12,8 +12,8 @@ import com.damakable.kotlinnews.model.NewsItem
 import com.damakable.kotlinnews.model.Newsfeed
 import kotlinx.android.synthetic.main.newsfeed_item_view.view.*
 
-class NewsfeedAdapter(private val navController: NavController) : RecyclerView.Adapter<NewsfeedAdapter
-.NewsfeedViewHolder>() {
+class NewsfeedAdapter(private val navController: NavController)
+    : RecyclerView.Adapter<NewsfeedAdapter.NewsfeedViewHolder>() {
     var newsfeed = Newsfeed()
 
     class NewsfeedViewHolder(
@@ -61,7 +61,7 @@ class NewsfeedAdapter(private val navController: NavController) : RecyclerView.A
     }
 
     fun clear() {
-        newsfeed = Newsfeed()
+        newsfeed.clear()
         notifyDataSetChanged()
     }
 

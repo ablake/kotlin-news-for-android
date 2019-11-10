@@ -14,6 +14,11 @@ class NewsfeedPresenter(
         feedProvider.requestFeed(::onPageRetrieved, view::displayError)
     }
 
+    fun requestFeedIfEmpty() {
+        if (view.isEmpty())
+            feedProvider.requestFeed(::onPageRetrieved, view::displayError)
+    }
+
 //    fun loadNext() {
 //        feedProvider.requestPage(after, ::onPageRetrieved, view::displayError)
 //    }
