@@ -2,7 +2,6 @@ package com.damakable.kotlinnews.screens.feed
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -17,15 +16,15 @@ class NewsfeedFragment : Fragment(R.layout.fragment_newsfeed), NewsfeedView {
     private lateinit var adapter: NewsfeedAdapter
     private lateinit var presenter: NewsfeedPresenter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         val newsfeedService = (activity as MainActivity).newsfeedService
         presenter = NewsfeedPresenter(NewsfeedProvider(newsfeedService), this)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
 
         if (!::adapter.isInitialized)
             adapter = NewsfeedAdapter(findNavController())
