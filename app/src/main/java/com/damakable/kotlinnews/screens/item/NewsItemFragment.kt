@@ -11,7 +11,7 @@ class NewsItemFragment : Fragment(R.layout.fragment_news_item) {
     private val args: NewsItemFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.title = args.item.title
-        item_body.text = args.item.body
+        activity?.title = args.item.title()
+        item_body.text = args.item.body()
     }
 }

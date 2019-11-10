@@ -6,11 +6,12 @@ import com.google.gson.annotations.SerializedName
 
 data class NewsItem(
     @SerializedName("kind") val kind: String?,
-    @SerializedName("data") val data: NewsItemData?,
-    val title: String = data?.title ?: "",
-    val body: String = data?.selftext ?: ""
+    @SerializedName("data") val data: NewsItemData?
 
 ) : Parcelable {
+    fun title() : String = data?.title ?: ""
+    fun body(): String = data?.selftext ?: ""
+
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readParcelable<NewsItemData>(NewsItemData::class.java.classLoader)

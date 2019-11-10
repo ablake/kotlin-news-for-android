@@ -25,10 +25,10 @@ import com.google.gson.annotations.SerializedName
  * }
  */
 data class Newsfeed(
-    @SerializedName("kind") val kind: String,
-    @SerializedName("data") val data: NewsfeedData
+    @SerializedName("kind") val kind: String = "",
+    @SerializedName("data") val data: NewsfeedData = NewsfeedData("", ArrayList(0))
 ) {
-    fun newsItems(): List<NewsItem> = data.children
+    fun length(): Int = data.children.size
 }
 
 data class NewsfeedData(
