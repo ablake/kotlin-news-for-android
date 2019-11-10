@@ -11,6 +11,7 @@ data class NewsItem(
 ) : Parcelable {
     fun title() : String = data?.title ?: ""
     fun body(): String = data?.selftext ?: ""
+    fun thumbnail(): String = data?.thumbnail ?: ""
 
     constructor(parcel: Parcel) : this(
         parcel.readString(),

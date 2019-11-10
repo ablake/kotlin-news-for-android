@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.damakable.kotlinnews.BuildConfig
 import com.damakable.kotlinnews.R
@@ -37,6 +38,7 @@ class NewsfeedFragment : Fragment(R.layout.fragment_newsfeed), NewsfeedView {
         val gson = GsonBuilder().create()
         val retrofit = Retrofit.Builder()
             .baseUrl("https://www.reddit.com/r/kotlin/")
+//            .baseUrl("https://www.reddit.com/r/pics/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(httpClient)
             .build()
@@ -46,6 +48,8 @@ class NewsfeedFragment : Fragment(R.layout.fragment_newsfeed), NewsfeedView {
         newsfeed_recycler.layoutManager = LinearLayoutManager(context)
         adapter = NewsfeedAdapter(findNavController())
         newsfeed_recycler.adapter = adapter
+        newsfeed_recycler.addItemDecoration(
+            DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         val presenter = NewsfeedPresenter(NewsfeedProvider(newsfeedService), this)
         presenter.refresh()
