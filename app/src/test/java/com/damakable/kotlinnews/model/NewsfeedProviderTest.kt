@@ -1,8 +1,8 @@
 package com.damakable.kotlinnews.model
 
 import com.damakable.kotlinnews.api.NewsfeedService
-import junit.framework.Assert.assertNotNull
-import junit.framework.Assert.fail
+import com.nhaarman.mockitokotlin2.whenever
+import junit.framework.Assert.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -15,7 +15,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
@@ -29,6 +28,12 @@ class NewsfeedProviderTest {
 
     private val testDispatcher = TestCoroutineDispatcher()
 
+    private val newsfeed = Newsfeed("feed",
+        NewsfeedData("after",
+            List(5) { i -> NewsItem("t3",
+                NewsfeedItemData(i.toString(), "selftext", "thumbnail"))
+        }))
+
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
@@ -41,27 +46,34 @@ class NewsfeedProviderTest {
     }
 
     @Test fun `requestFeed provides Newsfeed to observer on success`() = runBlockingTest {
-        Mockito.`when`(newsfeedService.getNewsfeed()).thenReturn(Response.success(Newsfeed()))
+        whenever(newsfeedService.getNewsfeed()).thenReturn(Response.success(newsfeed))
 
+        var pass = false
         NewsfeedProvider(newsfeedService).requestFeed({
             assertNotNull(it)
+            assertEquals("feed", it?.kind)
+            pass = true
         }, {
             fail()
         })
 
         verify(newsfeedService).getNewsfeed()
+        assertTrue(pass)
     }
 
     @Test fun `requestFeed provides Exception to observer on failure`() = runBlockingTest {
-        Mockito.`when`(newsfeedService.getNewsfeed())
+        whenever(newsfeedService.getNewsfeed())
             .thenReturn(Response.error(404, mock(ResponseBody::class.java)))
 
+        var pass = false
         NewsfeedProvider(newsfeedService).requestFeed({
             fail()
         }, {
             assertNotNull(it)
+            pass = true
         })
 
         verify(newsfeedService).getNewsfeed()
+        assertTrue(pass)
     }
 }

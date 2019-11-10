@@ -24,17 +24,16 @@ import com.google.gson.annotations.SerializedName
  *   }
  * }
  */
-
 data class Newsfeed(
     @SerializedName("kind") val kind: String,
     @SerializedName("data") val data: NewsfeedData
 ) {
-    fun newsItems(): Array<NewsItem> = data.children
+    fun newsItems(): List<NewsItem> = data.children
 }
 
 data class NewsfeedData(
     @SerializedName("after") val after: String,
-    @SerializedName("children") val children: Array<NewsItem>
+    @SerializedName("children") val children: List<NewsItem>
 )
 
 data class NewsItem(
@@ -46,5 +45,4 @@ data class NewsfeedItemData(
     @SerializedName("title") val title: String,
     @SerializedName("selftext") val selftext: String,
     @SerializedName("thumbnail") val thumbnail: String
-
 )

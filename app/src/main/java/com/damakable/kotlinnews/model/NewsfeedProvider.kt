@@ -14,16 +14,16 @@ class NewsfeedProvider(private val newsfeedService: NewsfeedService) {
 
     fun requestFeed(onSuccess: (Newsfeed?) -> Unit,
                     onFailure: (Exception) -> Unit) = scope.launch {
-            try {
-                val response = newsfeedService.getNewsfeed()
-                if (response.isSuccessful) {
-                    onSuccess(response.body())
-                } else {
-                    val error = "Error code: " + response.code()
-                    onFailure(Exception(error))
-                }
-            } catch (e: Exception) {
-                onFailure(e)
+        try {
+            val response = newsfeedService.getNewsfeed()
+            if (response.isSuccessful) {
+                onSuccess(response.body())
+            } else {
+                val error = "Error code: " + response.code()
+                onFailure(Exception(error))
             }
+        } catch (e: Exception) {
+            onFailure(e)
         }
+    }
 }
