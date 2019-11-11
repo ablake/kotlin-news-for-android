@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.damakable.kotlinnews.MainActivity
 import com.damakable.kotlinnews.R
 import com.damakable.kotlinnews.glide.GlideApp
 import io.noties.markwon.Markwon
@@ -28,5 +29,7 @@ class NewsItemFragment : Fragment(R.layout.fragment_news_item) {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         activity?.title = args.item.title()
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as MainActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 }

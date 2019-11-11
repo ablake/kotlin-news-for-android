@@ -21,6 +21,9 @@ class NewsfeedFragment : Fragment(R.layout.fragment_newsfeed), NewsfeedView {
 
         val newsfeedService = (activity as MainActivity).newsfeedService
         presenter = NewsfeedPresenter(NewsfeedProvider(newsfeedService), this)
+
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        (activity as MainActivity).supportActionBar?.setDisplayShowHomeEnabled(false)
     }
 
     override fun onStart() {
