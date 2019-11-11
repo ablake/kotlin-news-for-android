@@ -9,8 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ServiceProvider {
     companion object {
-//        private val BASE_URL = "https://www.reddit.com/r/kotlin/"
-        private const val BASE_URL = "https://www.reddit.com/r/awww/"
+        private const val BASE_URL = "https://www.reddit.com/r/kotlin/"
+//        private const val BASE_URL = "https://www.reddit.com/r/awww/"
     }
 
     fun createNewsfeedService(): NewsfeedService {
