@@ -5,13 +5,26 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.damakable.kotlinnews.R
+import com.damakable.kotlinnews.glide.GlideApp
 import kotlinx.android.synthetic.main.fragment_news_item.*
 
 class NewsItemFragment : Fragment(R.layout.fragment_news_item) {
     private val args: NewsItemFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.title = args.item.title()
+        val thumbnail = args.item.thumbnail()
+        if (thumbnail.isNotEmpty())
+            GlideApp.with(view.context)
+                .load(args.item.thumbnail())
+                .into(item_image)
+        else
+            item_image.visibility = View.GONE
+
         item_body.text = args.item.body()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        activity?.title = args.item.title()
     }
 }
