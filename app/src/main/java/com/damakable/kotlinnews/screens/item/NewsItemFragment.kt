@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.damakable.kotlinnews.R
 import com.damakable.kotlinnews.glide.GlideApp
+import io.noties.markwon.Markwon
 import kotlinx.android.synthetic.main.fragment_news_item.*
 
 class NewsItemFragment : Fragment(R.layout.fragment_news_item) {
@@ -20,7 +21,8 @@ class NewsItemFragment : Fragment(R.layout.fragment_news_item) {
         else
             item_image.visibility = View.GONE
 
-        item_body.text = args.item.body()
+        val markwon = Markwon.create(view.context)
+        markwon.setMarkdown(item_body, args.item.body())
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
