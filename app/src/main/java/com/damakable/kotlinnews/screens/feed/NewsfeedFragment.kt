@@ -32,11 +32,13 @@ class NewsfeedFragment : Fragment(R.layout.fragment_newsfeed), NewsfeedView {
         if (!::adapter.isInitialized)
             adapter = NewsfeedAdapter(findNavController())
 
-        newsfeed_recycler.layoutManager = LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(context)
+        newsfeed_recycler.layoutManager = layoutManager
         newsfeed_recycler.adapter = adapter
         newsfeed_recycler.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
+        newsfeed_recycler.addOnScrollListener(EndlessScrollListener(layoutManager, presenter))
 
         presenter.requestFeedIfEmpty()
     }

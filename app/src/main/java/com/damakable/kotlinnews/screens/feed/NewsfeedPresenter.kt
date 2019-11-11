@@ -12,7 +12,7 @@ class NewsfeedPresenter(
     // TODO: Stretch goal: swipe-to-refresh
 //    fun refresh() {
 //        view.clear()
-//        feedProvider.requestFeed(::onPageRetrieved, view::displayError)
+//        requestFeedIfEmpty()
 //    }
 
     fun requestFeedIfEmpty() {
@@ -20,10 +20,9 @@ class NewsfeedPresenter(
             feedProvider.requestFeed(::onPageRetrieved, view::displayError)
     }
 
-    // TODO: Implement paging
-//    fun loadNext() {
-//        feedProvider.requestPage(after, ::onPageRetrieved, view::displayError)
-//    }
+    fun loadNextPage() {
+        feedProvider.requestPage(::onPageRetrieved, view::displayError, after)
+    }
 
     private fun onPageRetrieved(page: Newsfeed) {
         view.addItems(page.items())
