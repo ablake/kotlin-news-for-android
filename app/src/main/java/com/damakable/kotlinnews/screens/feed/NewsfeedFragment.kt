@@ -50,6 +50,6 @@ class NewsfeedFragment : Fragment(R.layout.fragment_newsfeed), NewsfeedView {
     override fun isEmpty(): Boolean = adapter.itemCount == 0
 
     override fun displayError(error: Exception) {
-        Log.d("Newsfeed", error.toString())
+        Log.e("Newsfeed", error.toString())
     }
 }

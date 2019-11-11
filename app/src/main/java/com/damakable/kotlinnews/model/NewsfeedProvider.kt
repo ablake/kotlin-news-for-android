@@ -27,19 +27,17 @@ class NewsfeedProvider(private val newsfeedService: NewsfeedService) {
         }
     }
 
-//    fun requestPage(after: String,
-//                    onSuccess: (Newsfeed) -> Unit,
-//                    onFailure: (Exception) -> Unit) = scope.launch {
-//        try {
-//            val response = newsfeedService.getPage()
-//            if (response.isSuccessful) {
-//                onSuccess(response.body() ?: Newsfeed())
-//            } else {
-//                val error = "Error code: " + response.code()
-//                onFailure(Exception(error))
-//            }
-//        } catch (e: Exception) {
-//            onFailure(e)
-//        }
-//    }
+    // TODO: Implement paging
+    /*
+    fun requestPage(after: String,
+                    onSuccess: (Newsfeed) -> Unit,
+                    onFailure: (Exception) -> Unit) = scope.launch {
+        try {
+            val response = newsfeedService.getPage(after)
+            ...
+        } catch (e: Exception) {
+            onFailure(e)
+        }
+    }
+    */
 }

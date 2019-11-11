@@ -13,7 +13,7 @@ class ServiceProvider {
         private const val BASE_URL = "https://www.reddit.com/r/awww/"
     }
 
-    fun getNewsfeedService(): NewsfeedService {
+    fun createNewsfeedService(): NewsfeedService {
         val builder = OkHttpClient.Builder()
         if (BuildConfig.DEBUG) {
             val loggingInterceptor = HttpLoggingInterceptor()

@@ -2,7 +2,6 @@ package com.damakable.kotlinnews.model
 
 import com.damakable.kotlinnews.api.NewsfeedService
 import com.nhaarman.mockitokotlin2.whenever
-import junit.framework.Assert.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -11,6 +10,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import okhttp3.ResponseBody
 import org.junit.After
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -45,13 +45,13 @@ class NewsfeedProviderTest {
         testDispatcher.cleanupTestCoroutines()
     }
 
-    @Test fun `requestFeed provides Newsfeed to observer on success`() = runBlockingTest {
+    @Test fun `requestFeed provides Newsfeed to callback on success`() = runBlockingTest {
         whenever(newsfeedService.getNewsfeed()).thenReturn(Response.success(newsfeed))
 
         var pass = false
         NewsfeedProvider(newsfeedService).requestFeed({
             assertNotNull(it)
-            assertEquals("feed", it?.kind)
+            assertEquals("feed", it.kind)
             pass = true
         }, {
             fail()
@@ -61,7 +61,7 @@ class NewsfeedProviderTest {
         assertTrue(pass)
     }
 
-    @Test fun `requestFeed provides Exception to observer on failure`() = runBlockingTest {
+    @Test fun `requestFeed provides Exception to callback on failure`() = runBlockingTest {
         whenever(newsfeedService.getNewsfeed())
             .thenReturn(Response.error(404, mock(ResponseBody::class.java)))
 

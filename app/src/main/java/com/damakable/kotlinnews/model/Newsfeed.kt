@@ -24,6 +24,8 @@ import com.google.gson.annotations.SerializedName
  *   }
  * }
  */
+// TODO: Differentiate between Newsfeed (which adapter uses to maintain entire feed)
+//   and a NewsfeedPage (which should be an immutable data class returned from the service)
 data class Newsfeed(
     @SerializedName("kind") val kind: String = "",
     @SerializedName("data") val data: NewsfeedData = NewsfeedData("", ArrayList(0))

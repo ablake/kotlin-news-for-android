@@ -14,13 +14,12 @@ import kotlinx.android.synthetic.main.newsfeed_item_view.view.*
 
 class NewsfeedAdapter(private val navController: NavController)
     : RecyclerView.Adapter<NewsfeedAdapter.NewsfeedViewHolder>() {
-    var newsfeed = Newsfeed()
+    private var newsfeed = Newsfeed()
 
     class NewsfeedViewHolder(
         itemView: View,
         private val navController: NavController
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-
         var newsItem: NewsItem? = null
             set(value) {
                 field = value
@@ -56,9 +55,7 @@ class NewsfeedAdapter(private val navController: NavController)
             holder.itemView.newsfeed_item_image.visibility = View.GONE
     }
 
-    override fun getItemCount(): Int {
-        return newsfeed.length()
-    }
+    override fun getItemCount() = newsfeed.length()
 
     fun clear() {
         newsfeed.clear()

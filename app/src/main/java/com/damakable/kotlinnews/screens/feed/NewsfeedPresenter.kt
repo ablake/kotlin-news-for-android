@@ -9,16 +9,18 @@ class NewsfeedPresenter(
 ) {
     private var after = ""
 
-    fun refresh() {
-        view.clear()
-        feedProvider.requestFeed(::onPageRetrieved, view::displayError)
-    }
+    // TODO: Stretch goal: swipe-to-refresh
+//    fun refresh() {
+//        view.clear()
+//        feedProvider.requestFeed(::onPageRetrieved, view::displayError)
+//    }
 
     fun requestFeedIfEmpty() {
         if (view.isEmpty())
             feedProvider.requestFeed(::onPageRetrieved, view::displayError)
     }
 
+    // TODO: Implement paging
 //    fun loadNext() {
 //        feedProvider.requestPage(after, ::onPageRetrieved, view::displayError)
 //    }
