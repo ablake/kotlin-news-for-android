@@ -12,9 +12,12 @@ import com.damakable.kotlinnews.model.NewsItem
 import com.damakable.kotlinnews.model.NewsfeedProvider
 import kotlinx.android.synthetic.main.fragment_newsfeed.*
 
+
 class NewsfeedFragment : Fragment(R.layout.fragment_newsfeed), NewsfeedView {
     private lateinit var adapter: NewsfeedAdapter
     private lateinit var presenter: NewsfeedPresenter
+
+    private var scrollPosition = 0
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -32,13 +35,22 @@ class NewsfeedFragment : Fragment(R.layout.fragment_newsfeed), NewsfeedView {
         if (!::adapter.isInitialized)
             adapter = NewsfeedAdapter(findNavController())
 
-        newsfeed_recycler.layoutManager = LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(context)
+        newsfeed_recycler.layoutManager = layoutManager
         newsfeed_recycler.adapter = adapter
         newsfeed_recycler.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
+        newsfeed_recycler.addOnScrollListener(EndlessScrollListener(layoutManager, presenter))
 
+        layoutManager.scrollToPosition(scrollPosition)
         presenter.requestFeedIfEmpty()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val manager = newsfeed_recycler.layoutManager as LinearLayoutManager
+        scrollPosition = manager.findFirstVisibleItemPosition()
     }
 
     override fun onResume() {
