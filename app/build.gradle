@@ -44,9 +44,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    testImplementation "org.mockito:mockito-core:2.23.0"
+    testImplementation "org.mockito:mockito-core:3.2.0"
     testImplementation 'org.mockito:mockito-inline:2.8.47'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+
+    androidTestImplementation "io.mockk:mockk-android:1.9.3"
 
     implementation "com.squareup.retrofit2:retrofit:2.6.0"
     implementation "com.squareup.retrofit2:converter-gson:2.6.0"
